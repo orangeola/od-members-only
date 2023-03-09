@@ -98,6 +98,9 @@ router.get("/log-out", (req, res, next) => {
 });
 
 router.get("/membership-admin", (req, res, next) => {
+  if(!res.locals.currentUser){
+    res.redirect("/");
+  }
   res.render('membership-admin', { title: 'Membership/Admin Page'});
 });
 
@@ -109,7 +112,16 @@ router.post("/admin-login", [
   .escape(),
 
   (req, res, next) => {
+    let errors = validationResult(req);
     let user = res.locals.currentUser;
+
+    if (!errors.isEmpty()) {
+      res.render("membership-admin", {
+        title: "Membership/Admin Page",
+        admin_errors: errors.array(),
+      });
+    } else {
+
     if(req.body.adminpass === "pentapenguin"){
       user.admin = true;
       User.findByIdAndUpdate(user._id, user, {}).catch((err)=>{
@@ -118,7 +130,36 @@ router.post("/admin-login", [
         }
       })
     }
-  res.redirect("/");
+    res.redirect("/");
+    }
+}]);
+
+router.post("/member-login", [
+
+  body("memberpass", "Guess something...")
+  .trim()
+  .isLength({ min: 1 })
+  .escape(),
+
+  (req, res, next) => {
+    let errors = validationResult(req);
+    let user = res.locals.currentUser;
+
+    if (!errors.isEmpty()) {
+      res.render("membership-admin", {
+        title: "Membership/Admin Page",
+        member_errors: errors.array(),
+      });
+    } else {
+      if(req.body.memberpass === "orangepuffle"){
+      user.membership = true;
+      User.findByIdAndUpdate(user._id, user, {}).catch((err)=>{
+        if (err) {
+          return next(err);
+        }
+      })}
+      res.redirect("/");
+  }
 }]);
 
 module.exports = router;

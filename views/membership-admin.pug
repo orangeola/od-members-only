@@ -12,6 +12,11 @@ block content
     br
     button.btn.btn-primary(type='submit') Submit
 
+  if member_errors
+   ul
+    for error in member_errors
+     li!= error.msg
+
   hr
 
   h2 Enter the correct password to become an admin!
@@ -23,9 +28,9 @@ block content
     br
     button.btn.btn-primary(type='submit') Submit
 
-  if errors
+  if admin_errors
    ul
-    for error in errors
+    for error in admin_errors
      li!= error.msg
 
   br
