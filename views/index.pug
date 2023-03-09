@@ -27,4 +27,16 @@ block content
 
   hr
 
-  p Messages here
+  if messages
+    for message in messages 
+      div 
+        if currentUser
+          if currentUser.membership
+            p Author: #{message.author.username}
+        else 
+          p Author: Anonymous
+        p Date Posted: #{message.date_formatted}
+        br
+        p!= message.title
+        p!= message.text
+        hr

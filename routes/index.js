@@ -10,7 +10,14 @@ const { body, validationResult, isEmail, check } = require("express-validator");
 
 
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express'});
+  Message.find()
+  .populate("author")
+  .then((messages)=>{
+    console.log(messages);
+    res.render('index', { title: 'Express', messages: messages});
+  }).catch((err)=>{
+    return next(err);
+  })
 });
 
 router.get('/sign-up', function(req, res, next) {
@@ -163,6 +170,9 @@ router.post("/member-login", [
 }]);
 
 router.get("/new-message", (req, res, next) => {
+  if(!res.locals.currentUser){
+    res.redirect("/");
+  }
   res.render('new_message', { title: 'New Message'});
 });
 
@@ -190,7 +200,7 @@ router.post("/new-message", [
     if (!errors.isEmpty()) {
       res.render("new_message", {
         title: "New Message",
-        error: errors.array(),
+        errors: errors.array(),
       });
     } else {
       message.save().then(() => {
