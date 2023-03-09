@@ -13,7 +13,6 @@ router.get('/', function(req, res, next) {
   Message.find()
   .populate("author")
   .then((messages)=>{
-    console.log(messages);
     res.render('index', { title: 'Express', messages: messages});
   }).catch((err)=>{
     return next(err);
@@ -75,7 +74,7 @@ router.post('/sign-up', [
             user.password = hashedPassword;
           }).then(()=>{
             user.save().then(() => {
-              res.redirect("/");
+              res.redirect("/log-in");
               })
           })
         }
