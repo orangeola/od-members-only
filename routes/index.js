@@ -162,4 +162,43 @@ router.post("/member-login", [
   }
 }]);
 
+router.get("/new-message", (req, res, next) => {
+  res.render('new_message', { title: 'New Message'});
+});
+
+router.post("/new-message", [
+  body("title", "Needs a title mate")
+  .trim()
+  .isLength({ min: 1 })
+  .escape(),
+  body("message", "Why did you even come here?")
+  .trim()
+  .isLength({ min: 1 })
+  .escape(),
+
+  (req, res, next) => {
+    let errors = validationResult(req);
+    let user = res.locals.currentUser;
+
+    const message = new Message({ 
+      title: req.body.title, 
+      text: req.body.message,
+      time_stamp: new Date(),
+      author: user._id,
+    });
+
+    if (!errors.isEmpty()) {
+      res.render("new_message", {
+        title: "New Message",
+        error: errors.array(),
+      });
+    } else {
+      message.save().then(() => {
+        res.redirect("/");
+      }).catch((err)=>{
+        return next(err);
+      })
+  }
+}]);
+
 module.exports = router;

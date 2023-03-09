@@ -12,14 +12,18 @@ block content
     <a href="/log-out">Log out</a>
 
   else
-    a(href="/sign-up") Sign up!
+    a(href="/sign-up") Sign up
     br
     br
-    a(href="/log-in") Log in!
+    a(href="/log-in") Log in
 
-  br
-  br
-  a(href="/membership-admin") Membership/Admin Page
+  if currentUser
+    br
+    br
+    a(href="/membership-admin") Membership/Admin Page
+    br
+    br
+    a(href="/new-message") New Message
 
   hr
 
