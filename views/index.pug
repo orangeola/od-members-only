@@ -2,8 +2,13 @@ extends layout
 
 block content
 
-  if user
-    h1 Welcome back #{user.username}
+  if currentUser
+    h1 Welcome back #{currentUser.username}
+    if currentUser.admin
+      h3 You are an admin.
+    if currentUser.membership
+      h3 You are a member.
+
     <a href="/log-out">Log out</a>
 
   else
@@ -11,3 +16,11 @@ block content
     br
     br
     a(href="/log-in") Log in!
+
+  br
+  br
+  a(href="/membership-admin") Membership/Admin Page
+
+  hr
+
+  p Messages here

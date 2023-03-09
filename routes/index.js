@@ -10,7 +10,7 @@ const { body, validationResult, isEmail, check } = require("express-validator");
 
 
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express', user: req.user });
+  res.render('index', { title: 'Express'});
 });
 
 router.get('/sign-up', function(req, res, next) {
@@ -96,5 +96,29 @@ router.get("/log-out", (req, res, next) => {
     res.redirect("/");
   });
 });
+
+router.get("/membership-admin", (req, res, next) => {
+  res.render('membership-admin', { title: 'Membership/Admin Page'});
+});
+
+router.post("/admin-login", [
+
+  body("adminpass", "Guess something...")
+  .trim()
+  .isLength({ min: 1 })
+  .escape(),
+
+  (req, res, next) => {
+    let user = res.locals.currentUser;
+    if(req.body.adminpass === "pentapenguin"){
+      user.admin = true;
+      User.findByIdAndUpdate(user._id, user, {}).catch((err)=>{
+        if (err) {
+          return next(err);
+        }
+      })
+    }
+  res.redirect("/");
+}]);
 
 module.exports = router;

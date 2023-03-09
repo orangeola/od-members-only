@@ -1,0 +1,33 @@
+extends layout
+
+block content
+  h1 #{title}
+
+  h2 Enter the correct password to become a member!
+  form(method='POST' action='/member-login')
+    div.form-group
+      p
+        label(for='memberpass') Secret Password:
+        input#name.form-control(type='text', name='memberpass')
+    br
+    button.btn.btn-primary(type='submit') Submit
+
+  hr
+
+  h2 Enter the correct password to become an admin!
+  form(method='POST' action='/admin-login')
+    div.form-group
+      p
+        label(for='adminpass') Secret Password:
+        input#name.form-control(type='text', name='adminpass')
+    br
+    button.btn.btn-primary(type='submit') Submit
+
+  if errors
+   ul
+    for error in errors
+     li!= error.msg
+
+  br
+  br
+  a(href="/") Home
