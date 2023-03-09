@@ -219,4 +219,16 @@ router.post("/new-message", [
   }
 }]);
 
+router.get("/delete-message", (req, res, next) => {
+  res.redirect("/");
+});
+
+router.post("/delete-message", (req, res, next) => {
+  console.log(req.body);
+  Message.findByIdAndRemove(req.body.message).catch((err) => {
+    return next(err);
+  })
+    res.redirect("/");
+});
+
 module.exports = router;

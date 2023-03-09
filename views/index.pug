@@ -44,5 +44,8 @@ block content
         p!= message.text
         if currentUser
           if currentUser.admin 
-            a(href="/delete-message") Delete Message
+            form(method='POST' action='/delete-message')
+              div.form-group
+                input#name.form-control(type='hidden', name='message' value=message._id)
+              button.btn.btn-primary(type='submit' value=message) Delete message
         hr
