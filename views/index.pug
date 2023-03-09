@@ -1,4 +1,13 @@
 extends layout
 
 block content
-  a(href="/sign-up") Sign up!
+
+  if user
+    h1 Welcome back #{user.username}
+    <a href="/log-out">Log out</a>
+
+  else
+    a(href="/sign-up") Sign up!
+    br
+    br
+    a(href="/log-in") Log in!
