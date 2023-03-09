@@ -39,7 +39,8 @@ block content
           p Author: Anonymous
         p Date Posted: #{message.date_formatted}
         br
-        p!= message.title
+        p
+          strong= message.title
         p!= message.text
         if currentUser
           if currentUser.admin 

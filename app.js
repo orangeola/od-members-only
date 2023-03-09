@@ -60,6 +60,8 @@ passport.deserializeUser(function(id, done) {
   })
 });
 
+passport.authenticate('local', { failureFlash: 'Invalid username or password.' });
+
 app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());

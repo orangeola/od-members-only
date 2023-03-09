@@ -12,6 +12,7 @@ const { body, validationResult, isEmail, check } = require("express-validator");
 router.get('/', function(req, res, next) {
   Message.find()
   .populate("author")
+  .sort({time_stamp: -1})
   .then((messages)=>{
     res.render('index', { title: 'Express', messages: messages});
   }).catch((err)=>{
@@ -74,7 +75,15 @@ router.post('/sign-up', [
             user.password = hashedPassword;
           }).then(()=>{
             user.save().then(() => {
-              res.redirect("/log-in");
+              req.login(user, function (err) {
+                if ( ! err ){
+                    res.redirect('/');
+                } else {
+                    //handle error
+                    return next(err);
+                }
+            })
+              //res.redirect("/log-in");
               })
           })
         }
@@ -91,7 +100,7 @@ router.get('/log-in', function(req, res, next) {
 
 router.post('/log-in', passport.authenticate("local", {
   successRedirect: "/",
-  failureRedirect: "/"
+  failureRedirect: "/log-in",
 }));
 
 router.get("/log-out", (req, res, next) => {
