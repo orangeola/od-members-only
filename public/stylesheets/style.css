@@ -6,3 +6,26 @@ body {
 a {
   color: #00B7FF;
 }
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+form  { 
+  display: table;      
+}
+
+p { 
+  display: table-row;  
+}
+
+label { 
+  display: table-cell; 
+  text-align: right;
+}
+
+input[type=text] { 
+  display: table-cell;
+  margin-left: 10px; 
+}

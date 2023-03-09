@@ -3,9 +3,20 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-  first_name: { type: String, required: true, maxLength: 100 },
-  last_name: { type: String, required: true, maxLength: 100 },
   username: { type: String, required: true, maxLength: 32, minLength: 3 },
+  email: {
+    type: String,
+    trim: true,
+    lowercase: true,
+    unique: true,
+    validate: {
+        validator: function(v) {
+            return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v);
+        },
+        message: "Please enter a valid email"
+      },
+    required: [true, "Email required"]
+  },
   password: { type: String, required: true, maxLength: 100, minLength: 3 },
   membership: { type: Boolean, required: true },
   admin: { type: Boolean }

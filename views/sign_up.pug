@@ -2,3 +2,25 @@ extends layout
 
 block content
   h1 #{title}
+
+  form(method='POST' action='')
+    div.form-group
+      p
+        label(for='username') Username:
+        input#name.form-control(type='text', name='username')
+      
+      p
+        label(for='email') Email:
+        input#name.form-control(type='text', name='email')
+      
+      p
+        label(for='password') Password:
+        input#name.form-control(type='text', name='password')
+
+    br
+    button.btn.btn-primary(type='submit') Submit
+
+  if errors
+   ul
+    for error in errors
+     li!= error.msg
