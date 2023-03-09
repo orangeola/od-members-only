@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const passport = require("passport");
+const bcrypt = require("bcryptjs");
 
 const Message = require("../models/message");
 const User = require("../models/user");
@@ -63,11 +64,13 @@ router.post('/sign-up', [
             errors: [{msg: "Username already exists."}],
           });
         } else {
-          user.save().then(() => {
-          res.redirect("/");
-          }).catch((err) => {
-            return next(err);
-          });
+          bcrypt.hash(user.password, 10).then((hashedPassword) => {
+            user.password = hashedPassword;
+          }).then(()=>{
+            user.save().then(() => {
+              res.redirect("/");
+              })
+          })
         }
       }).catch((err) => {
         return next(err);
