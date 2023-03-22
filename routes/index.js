@@ -137,7 +137,7 @@ router.post("/admin-login", [
       });
     } else {
 
-    if(req.body.adminpass === "pentapenguin"){
+    if(req.body.adminpass === process.env.ADMIN){
       user.admin = true;
       User.findByIdAndUpdate(user._id, user, {}).catch((err)=>{
         if (err) {
@@ -166,7 +166,7 @@ router.post("/member-login", [
         member_errors: errors.array(),
       });
     } else {
-      if(req.body.memberpass === "orangepuffle"){
+      if(req.body.memberpass === process.env.MEMBER){
       user.membership = true;
       User.findByIdAndUpdate(user._id, user, {}).catch((err)=>{
         if (err) {
